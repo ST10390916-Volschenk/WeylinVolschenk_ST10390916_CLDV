@@ -19,4 +19,9 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color:cadetblue;
+}
+
+img {
+    padding-bottom: 5px;
 }
