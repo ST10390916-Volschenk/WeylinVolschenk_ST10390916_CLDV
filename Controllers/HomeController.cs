@@ -29,17 +29,7 @@ namespace ST10390916_CLDV_POE.Controllers
             return View();
         }
 
-        public IActionResult MyWork()
-        {
-            return View();
-        }
-
         public IActionResult AboutUs()
-        {
-            return View();
-        }
-
-        public IActionResult SignUp()
         {
             return View();
         }
