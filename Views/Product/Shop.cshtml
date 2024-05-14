@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Shop";
+    var userID = TempData["userID"];
+    var products = ViewData["products"] as List<ST10390916_CLDV_POE.Models.Product>;
+}
+
+<div class="text-center">
+    <h1 class="display-4" style="font-family:Buttershine Serif">Products</h1>
+</div>
+
+<div class="table-bordered">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Availability</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.Category</td>
+                    <td>@product.Availability</td>
+                    <td>
+                        <form asp-controller="Transaction" asp-action="PlaceOrder" method="post">
+                            <input type="hidden" name="userID" value="@userID" />
+                            <input type="hidden" name="productID" value="@product" />
+                            <button type="submit">Place Order</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
