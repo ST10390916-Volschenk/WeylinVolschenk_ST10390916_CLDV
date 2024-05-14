@@ -1,0 +1,21 @@
+﻿<h1 class="display-4 text-center" style="font-family:Buttershine Serif">Login</h1>
+
+<body>
+    <div class="text-center">
+        <form asp-controller="User" asp-action="Login" method="post">
+
+            <input type="text" name="email" placeholder="Email" required /> <br />
+            <input type="text" name="password" placeholder="Password" required /> <br />
+
+            <button type="submit">Login</button>
+            @if (ViewData["LoginFailed"] != null)
+            {
+                <div class=" text-center">
+                    <strong>@ViewData["LoginFailed"]</strong>
+                </div>
+            }
+
+        </form>
+    </div>
+    
+</body>
