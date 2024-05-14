@@ -1,0 +1,24 @@
+﻿@{
+    var UserID = TempData["UserID"];
+}
+<body>
+
+    <div class="text-center">
+        <form asp-controller="Product" asp-action="AddProduct" method="post">
+
+            <input type="text" name="Name" placeholder="Product Name" required />
+            <br />
+            <input type="text" name="Price" placeholder="Price" required />
+            <br />
+            <input type="text" name="Category" placeholder="Category" required />
+            <br />
+            <label>In Stock: </label>
+            <input type="checkbox" name="Availability" placeholder="In stock" />
+            <br />
+            <input type="hidden" name="OwnerID" value="@UserID" />
+            <button type="submit">Add Product</button>
+
+        </form>
+    </div>
+
+</body>
