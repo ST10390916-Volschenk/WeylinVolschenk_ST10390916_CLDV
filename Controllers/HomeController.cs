@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using ST10390916_CLDV_POE.Models;
 using System.Diagnostics;
@@ -9,9 +8,19 @@ namespace ST10390916_CLDV_POE.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public IActionResult _Layout()
+        {
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("UserID");
+            ViewData["UserID"] = userID;
+            return View();
         }
 
         public IActionResult Index()

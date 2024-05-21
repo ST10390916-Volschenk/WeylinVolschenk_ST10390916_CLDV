@@ -6,27 +6,43 @@ namespace ST10390916_CLDV_POE.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult AddProduct()
+        public Product productTbl = new Product();
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public ProductController(IHttpContextAccessor httpContextAccessor)
         {
-            return View();
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public Product productTbl = new Product();
+        //------------------------------------------------Add Product-----------------------------
 
         [HttpPost]
         public ActionResult AddProduct(Product product)
         {
             var result = productTbl.InsertProduct(product);
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("UserID");
+
             List<Product> products = Product.GetAllProducts();
             ViewData["products"] = products;
             return RedirectToAction("Shop", "Product");
         }
+        
+        public IActionResult AddProduct()
+        {
+            return View();
+        }    
+
+        //----------------------------------------Shop---------------------------------------------
 
         [HttpGet]
-        public ActionResult Shop()
+        public IActionResult Shop()
         {
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("UserID");
+            ViewData["UserID"] = userID;
+
             List<Product> products = Product.GetAllProducts();
             ViewData["products"] = products;
+
             return View(products);
         }
 

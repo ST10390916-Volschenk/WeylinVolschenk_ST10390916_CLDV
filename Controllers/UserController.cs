@@ -1,40 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ST10390916_CLDV_POE.Models;
-using Microsoft.AspNetCore.Session;
-using Microsoft.AspNetCore.Http;
 
 namespace ST10390916_CLDV_POE.Controllers
 {
     public class UserController : Controller
     {
-
-        public User usertbl = new User();
-
-        [HttpPost]
-        public ActionResult SignUp(User user)
-        {
-            usertbl.insert_User(user);
-            int userID = usertbl.SelectUser(user.Email, user.Password);
-            HttpContext.Session.SetInt32("UserID", userID);
-            ViewData["UserID"] = userID;
-            return RedirectToAction("MyWork", "User");
-        }
-
-        [HttpGet]
-        public ActionResult SignUp()
-        {
-            return View(usertbl);
-        }
-
-        //----------------------------------------------Login----------------------------------------------------------
-
         private readonly User login;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
 
         public UserController(IHttpContextAccessor httpContextAccessor)
         {
             login = new User();
             _httpContextAccessor = httpContextAccessor;
         }
+
+        //-------------------------------------Sign Up--------------------------------------------------------------
+
+        //public User usertbl = new User();
+
+        [HttpPost]
+        public ActionResult SignUp(User user)
+        {
+            user.insert_User(user);
+            int userID = user.SelectUser(user.Email, user.Password);
+
+            HttpContext.Session.SetInt32("UserID", userID);
+            return RedirectToAction("MyWork", "User");
+        }
+
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        //----------------------------------------------Login----------------------------------------------------------
 
         [HttpPost]
         public ActionResult Login(string email, string password)
@@ -53,20 +53,29 @@ namespace ST10390916_CLDV_POE.Controllers
             }
         }
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        //----------------------------------------------My Work-------------------------------------------------------------
 
         [HttpGet]
         public ActionResult MyWork()
         {
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("UserID");
+            ViewData["UserID"] = userID;
+
             List<Product> products = Product.GetUserProducts(userID);
             ViewData["products"] = products;
-            return View(products);
-        }
-
-        public IActionResult Login()
-        {
             return View();
         }
+
+
+        //-----------------------------------------My order history--------------------------------------------------------------
+
+        
+        //-----------------------------------------------Sales--------------------------------------------------------------------
+
     }
 }
