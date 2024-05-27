@@ -1,11 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Shop";
-    var userID = TempData["userID"];
+    var userID = ViewData["userID"];
     var products = ViewData["products"] as List<ST10390916_CLDV_POE.Models.Product>;
 }
 
 <div class="text-center">
-    <h1 class="display-4" style="font-family:Buttershine Serif">Products</h1>
+    <h1 class="display-4" style="font-family:Buttershine Serif">Shop</h1>
 </div>
 
 <div class="table-bordered">
@@ -17,7 +17,7 @@
                 <th>Price</th>
                 <th>Category</th>
                 <th>Availability</th>
-                <th>Action</th>
+                <th>Order</th>
             </tr>
         </thead>
         <tbody>
@@ -29,9 +29,11 @@
                     <td>@product.Category</td>
                     <td>@product.Availability</td>
                     <td>
-                        <form asp-controller="Transaction" asp-action="PlaceOrder" method="post">
-                            <input type="hidden" name="userID" value="@userID" />
-                            <input type="hidden" name="productID" value="@product" />
+                        <form asp-controller="Product" asp-action="Shop" method="post">
+                            <input type="hidden" name="ClientID" value="@userID" />
+                            <input type="hidden" name="ProductID" value="@product.ProductID" />
+                            <input type="hidden" name="OrderDate" value="@DateTime.Now" />
+                            <input type="hidden" name="OrderProcessed" value="false" />
                             <button type="submit">Place Order</button>
                         </form>
                     </td>

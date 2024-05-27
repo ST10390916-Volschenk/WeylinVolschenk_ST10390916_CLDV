@@ -1,4 +1,13 @@
-﻿<div class="text-center" >
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor httpContextAccessor;
+
+<div class="text-center" >
     <h1 class="display-2" style="font-family:Buttershine Serif; font-weight:500;">KhumaloCrafts<br>Emporium</h1>
     <p style="font-size:40px">This is the home of KhumaloCrafts. <br> A creative hub for artists and their fans</p>
+    @if ((httpContextAccessor.HttpContext.Session.GetInt32("UserID") == null) || (httpContextAccessor.HttpContext.Session.GetInt32("UserID") == -1))
+        {
+            <div>        
+                <a asp-area="" asp-controller="User" asp-action="SignUp">Sign up</a> to start shopping        
+            </div>
+        }
 </div>
