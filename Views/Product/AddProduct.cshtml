@@ -1,5 +1,5 @@
 ﻿@{
-    var UserID = TempData["UserID"];
+    var UserID = ViewData["UserID"];
 }
 <body>
 
@@ -13,7 +13,7 @@
             <input type="text" name="Category" placeholder="Category" required />
             <br />
             <label>In Stock: </label>
-            <input type="checkbox" name="Availability" placeholder="In stock" />
+            <input type="checkbox" name="Availability" value="true" placeholder="In stock" />
             <br />
             <input type="hidden" name="OwnerID" value="@UserID" />
             <button type="submit">Add Product</button>

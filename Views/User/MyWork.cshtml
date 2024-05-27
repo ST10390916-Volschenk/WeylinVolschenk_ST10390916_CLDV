@@ -6,14 +6,14 @@
 
 <div class="text-center">
     <h1 class="display-4" style="font-family:Buttershine Serif">My work</h1>
-    <p>A collection of my previous work.</p>
+    <p>Products you are currently selling.</p>
     
 </div>
 
 <div>
 
     <form asp-action="AddProduct" asp-controller="Product" method="">
-        <button type="submit">Add new product</button>
+        <button type="submit" name="btnSubmit">Add new product</button>
     </form>
 
 </div>
@@ -27,7 +27,6 @@
                 <th>Price</th>
                 <th>Category</th>
                 <th>Availability</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -35,16 +34,9 @@
             {
                 <tr>
                     <td>@product.Name</td>
-                    <td>@product.Price</td>
+                    <td>R @product.Price</td>
                     <td>@product.Category</td>
                     <td>@product.Availability</td>
-                    <td>
-                        <form asp-controller="Transaction" asp-action="PlaceOrder" method="post">
-                            <input type="hidden" name="userID" value="@userID" />
-                            <input type="hidden" name="productID" value="@product" />
-                            <button type="submit">Place Order</button>
-                        </form>
-                    </td>
                 </tr>
             }
         </tbody>

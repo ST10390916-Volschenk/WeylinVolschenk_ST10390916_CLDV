@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
 using System.Reflection;
 
 namespace ST10390916_CLDV_POE.Models
@@ -10,6 +11,7 @@ namespace ST10390916_CLDV_POE.Models
 
         public static SqlConnection con = new SqlConnection(conString);
 
+        public int ProductID { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
         public string Category { get; set; }
@@ -23,7 +25,7 @@ namespace ST10390916_CLDV_POE.Models
             string sql = "INSERT INTO ProductTbl (product_name, product_price, product_category, availability, owner_id) VALUES (@Name, @Price, @Category, @Availability, @OwnerID)";
 
             SqlCommand cmd = new SqlCommand(sql, con);
-            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@Name", product.Name);
             cmd.Parameters.AddWithValue("@Price", product.Price);
             cmd.Parameters.AddWithValue("@Category", product.Category);
@@ -52,6 +54,7 @@ namespace ST10390916_CLDV_POE.Models
                 {
                     Product product = new Product
                     {
+                        ProductID = int.Parse(rdr["product_id"].ToString()),
                         Name = rdr["product_name"].ToString(),
                         Price = Double.Parse(rdr["product_price"].ToString()),
                         Category = rdr["product_category"].ToString(),
@@ -66,6 +69,7 @@ namespace ST10390916_CLDV_POE.Models
             return products;
         }
 
+        //--------------------------------------------------Select user products---------------------------------------------------
 
         public static List<Product> GetUserProducts(int? userID)
         {
@@ -75,7 +79,7 @@ namespace ST10390916_CLDV_POE.Models
             {
                 string sql = "SELECT * FROM ProductTbl WHERE owner_id = @UserID";
                 SqlCommand cmd = new SqlCommand(sql, con);
-                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@UserID", userID);
 
                 con.Open();
@@ -98,5 +102,6 @@ namespace ST10390916_CLDV_POE.Models
             return products;
         }
 
-    }
+    }    
+
 }
