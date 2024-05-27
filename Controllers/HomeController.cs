@@ -25,6 +25,9 @@ namespace ST10390916_CLDV_POE.Controllers
 
         public IActionResult Index()
         {
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("UserID");
+            ViewData["UserID"] = userID;
+
             return View();
         }
 
