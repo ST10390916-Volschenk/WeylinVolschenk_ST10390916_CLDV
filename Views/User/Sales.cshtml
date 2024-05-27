@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "My Work";
+    var buyers = ViewData["buyers"] as List<ST10390916_CLDV_POE.Models.User>;
+    var orders = ViewData["orders"] as List<ST10390916_CLDV_POE.Models.Order>;
+    var products = ViewData["products"] as List<ST10390916_CLDV_POE.Models.Product>;
+}
+
+<div class="text-center">
+    <h1 class="display-4" style="font-family:Buttershine Serif">Sales</h1>
+</div>
+
+<div class="table-bordered">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Buyer</th>
+                <th>Process</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < orders.Count(); i++)
+            {
+                <tr>
+                    <td>@products[i].Name</td>
+                    <td>R @products[i].Price</td>
+                    <td>@products[i].Category</td>
+                    <td>@orders[i].OrderDate</td>
+                    <td>@buyers[i].Email</td>
+                    @if (orders[i].OrderProcessed == false)
+                    {
+                        <td>
+                            <form asp-controller="User" asp-action="Sales" method="post">
+                                <input type="hidden" name="OrderID" value="@orders[i].OrderID" />
+                                <button type="submit">Process Order</button>
+                            </form>
+                        </td>                        
+                    }
+                    @if (orders[i].OrderProcessed == true)
+                    {
+                        <td>Order processed</td>
+
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -55,6 +55,8 @@ namespace ST10390916_CLDV_POE.Controllers
 
         public IActionResult Login()
         {
+            int userID = -1;
+            HttpContext.Session.SetInt32("UserID", userID);
             return View();
         }
 
@@ -71,11 +73,63 @@ namespace ST10390916_CLDV_POE.Controllers
             return View();
         }
 
-
         //-----------------------------------------My order history--------------------------------------------------------------
 
-        
+        [HttpGet]
+        public ActionResult Orders()
+        {
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("UserID");
+            List<Order> orders = Order.GetUserOrders((int) userID);
+            List<Product> products = new List<Product>();
+            List<User> users = new List<User>();
+
+            foreach (var order in orders)
+            {
+                products.Add(Order.GetProduct(order.ProductID));
+            }
+
+            foreach (var product in products)
+            {
+                users.Add(Order.GetUserInfo(product.OwnerID));
+            }
+
+            ViewData["sellers"] = users;
+            ViewData["orders"] = orders;
+            ViewData["products"] = products;
+
+            return View();
+        }
+
         //-----------------------------------------------Sales--------------------------------------------------------------------
+
+        [HttpGet]
+        public ActionResult Sales()
+        {
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("UserID");
+            List<Order> orders = Order.GetUserSales((int)userID);
+            List<Product> products = new List<Product>();
+            List<User> users = new List<User>();
+
+            foreach (var order in orders)
+            {
+                products.Add(Order.GetProduct(order.ProductID));
+                users.Add(Order.GetUserInfo(order.ClientID));
+            }
+
+            ViewData["buyers"] = users;
+            ViewData["orders"] = orders;
+            ViewData["products"] = products;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Sales(int OrderID)
+        {
+            Order order = new Order();
+            var result = order.ProcessOrder(OrderID);
+            return RedirectToAction("Sales", "User");
+        }
 
     }
 }
