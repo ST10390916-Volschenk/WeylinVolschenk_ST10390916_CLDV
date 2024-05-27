@@ -17,6 +17,8 @@ namespace ST10390916_CLDV_POE.Models
         public string Email { get; set; }
         public string Password { get; set; }
 
+        //---------------------------------------Insert User-------------------------------------------------------------------
+
         public int insert_User(User user)
         {
             string sql = "INSERT INTO Usertbl (user_name, user_surname, user_email, user_password) VALUES (@Name, @Surname, @Email, @Password)";
@@ -33,9 +35,11 @@ namespace ST10390916_CLDV_POE.Models
             return rowsAffected;
         }
 
+        //------------------------------------------Select User----------------------------------------------------------------------
+
         public int SelectUser(string email, string password)
         {
-            int userId = -1; // Default value if user is not found
+            int userID = -1; // Default value if user is not found
             using (SqlConnection con = new SqlConnection(conString))
             {
                 string sql = "SELECT user_id FROM Usertbl WHERE user_email = @Email AND user_password = @Password";
@@ -48,7 +52,7 @@ namespace ST10390916_CLDV_POE.Models
                     object result = cmd.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
                     {
-                        userId = Convert.ToInt32(result);
+                        userID = Convert.ToInt32(result);
                     }
                 }
                 catch (Exception ex)
@@ -56,7 +60,7 @@ namespace ST10390916_CLDV_POE.Models
                     throw ex;
                 }
             }
-            return userId;
+            return userID;
         }
 
     }
