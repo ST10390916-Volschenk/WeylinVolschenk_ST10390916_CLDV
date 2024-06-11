@@ -15,7 +15,7 @@ namespace ST10390916_CLDV_POE.Controllers
         }
 
         //------------------------------------------------Add Product-----------------------------
-
+        
         [HttpPost]
         public ActionResult AddProduct(Product product)
         {

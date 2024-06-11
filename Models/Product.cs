@@ -19,7 +19,7 @@ namespace ST10390916_CLDV_POE.Models
         public int OwnerID { get; set; }
 
         //-----------------------------------------Insert Product------------------------------------------------------------
-
+        
         public int InsertProduct(Product product)
         {
             string sql = "INSERT INTO ProductTbl (product_name, product_price, product_category, availability, owner_id) VALUES (@Name, @Price, @Category, @Availability, @OwnerID)";
